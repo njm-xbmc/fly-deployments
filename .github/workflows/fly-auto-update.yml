@@ -1,0 +1,116 @@
+name: Auto-Update Fly.io Apps
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # Runs every day at 3am UTC
+  workflow_dispatch:      # Also allows manual trigger from GitHub Actions tab
+
+jobs:
+
+  update-comet:
+    name: Update Comet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: g0ldyy/comet
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --app comet-late-inlet-5587 --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+  update-aiostreams:
+    name: Update AIOStreams
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: Viren070/AIOStreams
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --app user-airy-grove-3803 --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+  update-stremthru:
+    name: Update StremThru
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: MunifTanjim/stremthru
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --app stremthru-falling-coastline-439 --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+  update-deepbridge:
+    name: Update Deepbridge
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: viren070/deepbridge
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --app deepbridge --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+  update-streamnzb:
+    name: Update StreamNZB
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: Viren070/StreamNZB
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --app user-small-hollow-3661 --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+  update-nuvio-streams:
+    name: Update Nuvio Streams Addon
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: tapframe/NuvioStreamsAddon
+      - name: Override Dockerfile for Node 20
+        run: |
+          cat > Dockerfile << 'EOF'
+          FROM node:20-alpine
+          WORKDIR /app
+          COPY package*.json ./
+          RUN npm install --production
+          COPY . .
+          EXPOSE 8080
+          ENV PORT=8080
+          CMD ["node", "server.js"]
+          EOF
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --app nuviostreamsaddon-young-tree-5810 --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+  update-sootio:
+    name: Update Sootio
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: Sootio/sootio
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --app sootio --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+  update-aiolists:
+    name: Update AIOLists
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: Viren070/AIOLists
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --app aiolists --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
