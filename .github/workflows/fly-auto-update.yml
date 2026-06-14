@@ -49,7 +49,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: viren070/deepbridge
+          repository: Cxsmo-ai/Deepbridge
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --app deepbridge --remote-only
         env:
@@ -97,7 +97,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: Sootio/sootio
+          repository: njm-xbmc/sootio-stremio-addon
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --app sootio --remote-only
         env:
@@ -109,7 +109,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: Viren070/AIOLists
+          repository: SebastianMorel/AIOLists
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --app aiolists --remote-only
         env:
