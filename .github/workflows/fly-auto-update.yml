@@ -61,7 +61,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: Viren070/StreamNZB
+          repository: Gaisberg/streamnzb
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --app user-small-hollow-3661 --remote-only
         env:
