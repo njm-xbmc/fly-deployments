@@ -15,9 +15,16 @@ jobs:
         with:
           repository: g0ldyy/comet
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --app comet-late-inlet-5587 --remote-only
+      - name: Deploy
+        run: flyctl deploy --app comet-late-inlet-5587 --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Notify success
+        if: success()
+        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ Comet updated successfully on Fly.io"
+      - name: Notify failure
+        if: failure()
+        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ Comet update FAILED on Fly.io"
 
   update-aiostreams:
     name: Update AIOStreams
@@ -27,21 +34,29 @@ jobs:
         with:
           repository: Viren070/AIOStreams
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --app user-airy-grove-3803 --remote-only
+      - name: Deploy
+        run: flyctl deploy --app user-airy-grove-3803 --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Notify success
+        if: success()
+        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ AIOStreams updated successfully on Fly.io"
+      - name: Notify failure
+        if: failure()
+        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ AIOStreams update FAILED on Fly.io"
 
-#  update-stremthru:
-#    name: Update StremThru
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#        with:
-#          repository: MunifTanjim/stremthru
-#      - uses: superfly/flyctl-actions/setup-flyctl@master
-#      - run: flyctl deploy --app stremthru-falling-coastline-439 --remote-only
-#        env:
-#          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  # update-stremthru:
+  #   name: Update StremThru
+  #   runs-on: ubuntu-latest
+  #   # Disabled: upstream Dockerfile bug - re-enable once MunifTanjim/stremthru fixes it
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         repository: MunifTanjim/stremthru
+  #     - uses: superfly/flyctl-actions/setup-flyctl@master
+  #     - run: flyctl deploy --app stremthru-falling-coastline-439 --remote-only
+  #       env:
+  #         FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
   update-deepbridge:
     name: Update Deepbridge
@@ -51,9 +66,16 @@ jobs:
         with:
           repository: Cxsmo-ai/Deepbridge
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --app deepbridge --remote-only
+      - name: Deploy
+        run: flyctl deploy --app deepbridge --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Notify success
+        if: success()
+        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ Deepbridge updated successfully on Fly.io"
+      - name: Notify failure
+        if: failure()
+        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ Deepbridge update FAILED on Fly.io"
 
   update-streamnzb:
     name: Update StreamNZB
@@ -63,9 +85,16 @@ jobs:
         with:
           repository: Gaisberg/streamnzb
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --app user-small-hollow-3661 --remote-only
+      - name: Deploy
+        run: flyctl deploy --app user-small-hollow-3661 --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Notify success
+        if: success()
+        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ StreamNZB updated successfully on Fly.io"
+      - name: Notify failure
+        if: failure()
+        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ StreamNZB update FAILED on Fly.io"
 
   update-nuvio-streams:
     name: Update Nuvio Streams Addon
@@ -87,9 +116,16 @@ jobs:
           CMD ["node", "server.js"]
           EOF
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --app nuviostreamsaddon-young-tree-5810 --remote-only
+      - name: Deploy
+        run: flyctl deploy --app nuviostreamsaddon-young-tree-5810 --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Notify success
+        if: success()
+        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ Nuvio Streams updated successfully on Fly.io"
+      - name: Notify failure
+        if: failure()
+        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ Nuvio Streams update FAILED on Fly.io"
 
   update-sootio:
     name: Update Sootio
@@ -99,9 +135,16 @@ jobs:
         with:
           repository: njm-xbmc/sootio-stremio-addon
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --app sootio --remote-only
+      - name: Deploy
+        run: flyctl deploy --app sootio --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Notify success
+        if: success()
+        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ Sootio updated successfully on Fly.io"
+      - name: Notify failure
+        if: failure()
+        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ Sootio update FAILED on Fly.io"
 
   update-aiolists:
     name: Update AIOLists
@@ -111,6 +154,13 @@ jobs:
         with:
           repository: SebastianMorel/AIOLists
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --app aiolists --remote-only
+      - name: Deploy
+        run: flyctl deploy --app aiolists --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Notify success
+        if: success()
+        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ AIOLists updated successfully on Fly.io"
+      - name: Notify failure
+        if: failure()
+        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ AIOLists update FAILED on Fly.io"
