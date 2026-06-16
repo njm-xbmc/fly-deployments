@@ -77,24 +77,24 @@ jobs:
         if: failure()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ Deepbridge update FAILED on Fly.io"
 
-  update-streamnzb:
-    name: Update StreamNZB
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          repository: Gaisberg/streamnzb
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Deploy
-        run: flyctl deploy --app user-small-hollow-3661 --remote-only
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-      - name: Notify success
-        if: success()
-        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ StreamNZB updated successfully on Fly.io"
-      - name: Notify failure
-        if: failure()
-        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ StreamNZB update FAILED on Fly.io"
+#  update-streamnzb:
+#    name: Update StreamNZB
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          repository: Gaisberg/streamnzb
+#      - uses: superfly/flyctl-actions/setup-flyctl@master
+#      - name: Deploy
+#        run: flyctl deploy --app user-small-hollow-3661 --remote-only
+#        env:
+#          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+#      - name: Notify success
+#        if: success()
+#        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ StreamNZB updated successfully on Fly.io"
+#      - name: Notify failure
+#        if: failure()
+#        run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ StreamNZB update FAILED on Fly.io"
 
   update-nuvio-streams:
     name: Update Nuvio Streams Addon
