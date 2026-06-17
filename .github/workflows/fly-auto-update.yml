@@ -19,7 +19,8 @@ jobs:
         id: check
         run: |
           LATEST=$(git rev-parse HEAD)
-          DEPLOYED=$(flyctl image show --app comet-late-inlet-5587 --json 2>/dev/null | jq -r '.Labels["org.opencontainers.image.revision"] // ""')
+          RAW=$(flyctl image show --app comet-late-inlet-5587 --json 2>/dev/null)
+          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Labels["org.opencontainers.image.revision"] // "" else .Labels["org.opencontainers.image.revision"] // "" end')
           if [ "$LATEST" = "$DEPLOYED" ]; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
@@ -51,7 +52,8 @@ jobs:
         id: check
         run: |
           LATEST=$(git rev-parse HEAD)
-          DEPLOYED=$(flyctl image show --app user-airy-grove-3803 --json 2>/dev/null | jq -r '.Labels["org.opencontainers.image.revision"] // ""')
+          RAW=$(flyctl image show --app user-airy-grove-3803 --json 2>/dev/null)
+          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Labels["org.opencontainers.image.revision"] // "" else .Labels["org.opencontainers.image.revision"] // "" end')
           if [ "$LATEST" = "$DEPLOYED" ]; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
@@ -96,7 +98,8 @@ jobs:
         id: check
         run: |
           LATEST=$(git rev-parse HEAD)
-          DEPLOYED=$(flyctl image show --app deepbridge --json 2>/dev/null | jq -r '.Labels["org.opencontainers.image.revision"] // ""')
+          RAW=$(flyctl image show --app deepbridge --json 2>/dev/null)
+          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Labels["org.opencontainers.image.revision"] // "" else .Labels["org.opencontainers.image.revision"] // "" end')
           if [ "$LATEST" = "$DEPLOYED" ]; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
@@ -125,7 +128,8 @@ jobs:
         id: check
         run: |
           LATEST=$(curl -s "https://ghcr.io/v2/gaisberg/streamnzb/manifests/latest" -H "Accept: application/vnd.docker.distribution.manifest.v2+json" | jq -r '.config.digest // ""')
-          DEPLOYED=$(flyctl image show --app user-small-hollow-3661 --json 2>/dev/null | jq -r '.Digest // ""')
+          RAW=$(flyctl image show --app user-small-hollow-3661 --json 2>/dev/null)
+          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Digest // "" else .Digest // "" end')
           if [ "$LATEST" = "$DEPLOYED" ]; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
@@ -157,7 +161,8 @@ jobs:
         id: check
         run: |
           LATEST=$(git rev-parse HEAD)
-          DEPLOYED=$(flyctl image show --app nuviostreamsaddon-young-tree-5810 --json 2>/dev/null | jq -r '.Labels["org.opencontainers.image.revision"] // ""')
+          RAW=$(flyctl image show --app nuviostreamsaddon-young-tree-5810 --json 2>/dev/null)
+          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Labels["org.opencontainers.image.revision"] // "" else .Labels["org.opencontainers.image.revision"] // "" end')
           if [ "$LATEST" = "$DEPLOYED" ]; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
@@ -202,7 +207,8 @@ jobs:
         id: check
         run: |
           LATEST=$(git rev-parse HEAD)
-          DEPLOYED=$(flyctl image show --app sootio --json 2>/dev/null | jq -r '.Labels["org.opencontainers.image.revision"] // ""')
+          RAW=$(flyctl image show --app sootio --json 2>/dev/null)
+          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Labels["org.opencontainers.image.revision"] // "" else .Labels["org.opencontainers.image.revision"] // "" end')
           if [ "$LATEST" = "$DEPLOYED" ]; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
@@ -234,7 +240,8 @@ jobs:
         id: check
         run: |
           LATEST=$(git rev-parse HEAD)
-          DEPLOYED=$(flyctl image show --app aiolists --json 2>/dev/null | jq -r '.Labels["org.opencontainers.image.revision"] // ""')
+          RAW=$(flyctl image show --app aiolists --json 2>/dev/null)
+          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Labels["org.opencontainers.image.revision"] // "" else .Labels["org.opencontainers.image.revision"] // "" end')
           if [ "$LATEST" = "$DEPLOYED" ]; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
@@ -266,7 +273,8 @@ jobs:
         id: check
         run: |
           LATEST=$(git rev-parse HEAD)
-          DEPLOYED=$(flyctl image show --app torrin-addon --json 2>/dev/null | jq -r '.Labels["org.opencontainers.image.revision"] // ""')
+          RAW=$(flyctl image show --app torrin-addon --json 2>/dev/null)
+          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Labels["org.opencontainers.image.revision"] // "" else .Labels["org.opencontainers.image.revision"] // "" end')
           if [ "$LATEST" = "$DEPLOYED" ]; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
