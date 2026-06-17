@@ -15,29 +15,15 @@ jobs:
         with:
           repository: g0ldyy/comet
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Check if update needed
-        id: check
-        run: |
-          LATEST=$(git rev-parse HEAD)
-          RAW=$(flyctl image show --app comet-late-inlet-5587 --json 2>/dev/null)
-          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Labels["org.opencontainers.image.revision"] // "" else .Labels["org.opencontainers.image.revision"] // "" end')
-          if [ "$LATEST" = "$DEPLOYED" ]; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Deploy
-        if: steps.check.outputs.changed == 'true'
         run: flyctl deploy --app comet-late-inlet-5587 --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Notify success
-        if: steps.check.outputs.changed == 'true' && success()
+        if: success()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ Comet updated successfully on Fly.io"
       - name: Notify failure
-        if: steps.check.outputs.changed == 'true' && failure()
+        if: failure()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ Comet update FAILED on Fly.io"
 
   update-aiostreams:
@@ -48,29 +34,15 @@ jobs:
         with:
           repository: Viren070/AIOStreams
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Check if update needed
-        id: check
-        run: |
-          LATEST=$(git rev-parse HEAD)
-          RAW=$(flyctl image show --app user-airy-grove-3803 --json 2>/dev/null)
-          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Labels["org.opencontainers.image.revision"] // "" else .Labels["org.opencontainers.image.revision"] // "" end')
-          if [ "$LATEST" = "$DEPLOYED" ]; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Deploy
-        if: steps.check.outputs.changed == 'true'
         run: flyctl deploy --app user-airy-grove-3803 --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Notify success
-        if: steps.check.outputs.changed == 'true' && success()
+        if: success()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ AIOStreams updated successfully on Fly.io"
       - name: Notify failure
-        if: steps.check.outputs.changed == 'true' && failure()
+        if: failure()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ AIOStreams update FAILED on Fly.io"
 
   # update-stremthru:
@@ -94,29 +66,15 @@ jobs:
         with:
           repository: Cxsmo-ai/Deepbridge
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Check if update needed
-        id: check
-        run: |
-          LATEST=$(git rev-parse HEAD)
-          RAW=$(flyctl image show --app deepbridge --json 2>/dev/null)
-          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Labels["org.opencontainers.image.revision"] // "" else .Labels["org.opencontainers.image.revision"] // "" end')
-          if [ "$LATEST" = "$DEPLOYED" ]; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Deploy
-        if: steps.check.outputs.changed == 'true'
         run: flyctl deploy --app deepbridge --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Notify success
-        if: steps.check.outputs.changed == 'true' && success()
+        if: success()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ Deepbridge updated successfully on Fly.io"
       - name: Notify failure
-        if: steps.check.outputs.changed == 'true' && failure()
+        if: failure()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ Deepbridge update FAILED on Fly.io"
 
   update-streamnzb:
@@ -124,29 +82,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Check if update needed
-        id: check
-        run: |
-          LATEST=$(curl -s "https://ghcr.io/v2/gaisberg/streamnzb/manifests/latest" -H "Accept: application/vnd.docker.distribution.manifest.v2+json" | jq -r '.config.digest // ""')
-          RAW=$(flyctl image show --app user-small-hollow-3661 --json 2>/dev/null)
-          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Digest // "" else .Digest // "" end')
-          if [ "$LATEST" = "$DEPLOYED" ]; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Deploy
-        if: steps.check.outputs.changed == 'true'
         run: flyctl deploy --app user-small-hollow-3661 --image ghcr.io/gaisberg/streamnzb:latest
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Notify success
-        if: steps.check.outputs.changed == 'true' && success()
+        if: success()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ StreamNZB updated successfully on Fly.io"
       - name: Notify failure
-        if: steps.check.outputs.changed == 'true' && failure()
+        if: failure()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ StreamNZB update FAILED on Fly.io"
 
   update-nuvio-streams:
@@ -157,21 +101,7 @@ jobs:
         with:
           repository: tapframe/NuvioStreamsAddon
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Check if update needed
-        id: check
-        run: |
-          LATEST=$(git rev-parse HEAD)
-          RAW=$(flyctl image show --app nuviostreamsaddon-young-tree-5810 --json 2>/dev/null)
-          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Labels["org.opencontainers.image.revision"] // "" else .Labels["org.opencontainers.image.revision"] // "" end')
-          if [ "$LATEST" = "$DEPLOYED" ]; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Override Dockerfile for Node 20
-        if: steps.check.outputs.changed == 'true'
         run: |
           cat > Dockerfile << 'EOF'
           FROM node:20-alpine
@@ -184,15 +114,14 @@ jobs:
           CMD ["node", "server.js"]
           EOF
       - name: Deploy
-        if: steps.check.outputs.changed == 'true'
         run: flyctl deploy --app nuviostreamsaddon-young-tree-5810 --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Notify success
-        if: steps.check.outputs.changed == 'true' && success()
+        if: success()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ Nuvio Streams updated successfully on Fly.io"
       - name: Notify failure
-        if: steps.check.outputs.changed == 'true' && failure()
+        if: failure()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ Nuvio Streams update FAILED on Fly.io"
 
   update-sootio:
@@ -203,29 +132,15 @@ jobs:
         with:
           repository: njm-xbmc/sootio-stremio-addon
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Check if update needed
-        id: check
-        run: |
-          LATEST=$(git rev-parse HEAD)
-          RAW=$(flyctl image show --app sootio --json 2>/dev/null)
-          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Labels["org.opencontainers.image.revision"] // "" else .Labels["org.opencontainers.image.revision"] // "" end')
-          if [ "$LATEST" = "$DEPLOYED" ]; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Deploy
-        if: steps.check.outputs.changed == 'true'
         run: flyctl deploy --app sootio --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Notify success
-        if: steps.check.outputs.changed == 'true' && success()
+        if: success()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ Sootio updated successfully on Fly.io"
       - name: Notify failure
-        if: steps.check.outputs.changed == 'true' && failure()
+        if: failure()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ Sootio update FAILED on Fly.io"
 
   update-aiolists:
@@ -236,29 +151,15 @@ jobs:
         with:
           repository: SebastianMorel/AIOLists
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Check if update needed
-        id: check
-        run: |
-          LATEST=$(git rev-parse HEAD)
-          RAW=$(flyctl image show --app aiolists --json 2>/dev/null)
-          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Labels["org.opencontainers.image.revision"] // "" else .Labels["org.opencontainers.image.revision"] // "" end')
-          if [ "$LATEST" = "$DEPLOYED" ]; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Deploy
-        if: steps.check.outputs.changed == 'true'
         run: flyctl deploy --app aiolists --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Notify success
-        if: steps.check.outputs.changed == 'true' && success()
+        if: success()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ AIOLists updated successfully on Fly.io"
       - name: Notify failure
-        if: steps.check.outputs.changed == 'true' && failure()
+        if: failure()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ AIOLists update FAILED on Fly.io"
 
   update-torrin-addon:
@@ -269,29 +170,15 @@ jobs:
         with:
           repository: torrin-app/torrin-addon
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Check if update needed
-        id: check
-        run: |
-          LATEST=$(git rev-parse HEAD)
-          RAW=$(flyctl image show --app torrin-addon --json 2>/dev/null)
-          DEPLOYED=$(echo "$RAW" | jq -r 'if type == "array" then .[0].Labels["org.opencontainers.image.revision"] // "" else .Labels["org.opencontainers.image.revision"] // "" end')
-          if [ "$LATEST" = "$DEPLOYED" ]; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Deploy
-        if: steps.check.outputs.changed == 'true'
         run: flyctl deploy --app torrin-addon --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Notify success
-        if: steps.check.outputs.changed == 'true' && success()
+        if: success()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="✅ Torrin Addon updated successfully on Fly.io"
       - name: Notify failure
-        if: steps.check.outputs.changed == 'true' && failure()
+        if: failure()
         run: curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="❌ Torrin Addon update FAILED on Fly.io"
 
   daily-summary:
