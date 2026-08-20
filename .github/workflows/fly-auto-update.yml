@@ -194,6 +194,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: njm-xbmc/pia-wg-config-generator
+          ref: master
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy
         run: flyctl deploy --app pia-wg-gen --remote-only
